@@ -47,8 +47,10 @@ from .data import DataWebSocket
 class CreateUserAPIHandler(WebRequest):
     def post(self):
         name = self.get_argument("name","demo user")
+        password = self.get_argument("password","123456")
         user = {
             "name":name,
+            "password":password,
         }
         [user_id, user] = nomagic.auth.create_user(user)
         self.finish({

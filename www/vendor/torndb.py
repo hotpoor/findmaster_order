@@ -37,9 +37,9 @@ try:
     import MySQLdb.constants
     import MySQLdb.converters
     import MySQLdb.cursors
-    print("try MySQLdb")
+    # print("try MySQLdb")
 except ImportError:
-    print("except MySQLdb")
+    # print("except MySQLdb")
     # If MySQLdb isn't available this module won't actually be useable,
     # but we want it to at least be importable on readthedocs.org,
     # which has limitations on third-party modules.
@@ -71,13 +71,16 @@ class Connection(object):
     (http://dev.mysql.com/doc/refman/5.0/en/server-sql-mode.html). However, it can be set to
     any other mode including blank (None) thereby explicitly clearing the SQL mode.
     """
+    # def __init__(self, host, database, user=None, password=None,
+    #              max_idle_time=7 * 3600, connect_timeout=0,
+    #              time_zone="+0:00", charset = "utf8", sql_mode="TRADITIONAL"):
     def __init__(self, host, database, user=None, password=None,
-                 max_idle_time=7 * 3600, connect_timeout=0,
+                 max_idle_time=7 * 3600, connect_timeout=10,
                  time_zone="+0:00", charset = "utf8", sql_mode="TRADITIONAL"):
         self.host = host
         self.database = database
         self.max_idle_time = float(max_idle_time)
-
+        # print("connect_timeout:",connect_timeout)
         args = dict(conv=CONVERSIONS, use_unicode=True, charset=charset,
                     db=database, init_command=('SET time_zone = "%s"' % time_zone),
                     connect_timeout=connect_timeout, sql_mode=sql_mode)
