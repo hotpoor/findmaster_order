@@ -13,6 +13,19 @@ CREATE TABLE `index_login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
+```
+CREATE TABLE `index_search` (
+  `word` varchar(255) DEFAULT '',
+  `entity_id` char(32) NOT NULL DEFAULT '',
+  `entity_ids` mediumblob,
+  `search` varchar(255) DEFAULT '',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `about` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `entity_id` (`entity_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
+```
+
 database: test1
 ```
 CREATE TABLE `entities` (
@@ -38,3 +51,4 @@ CREATE TABLE `entities` (
   KEY `updated` (`updated`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
+

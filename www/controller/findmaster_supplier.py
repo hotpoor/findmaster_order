@@ -72,3 +72,6 @@ class CreateSupplierAPIHandler(BaseController):
 class ListSupplierAPIHandler(BaseController):
     def post(self):
         super().get_list("supplier")
+class ListTestSupplierAPIHandler(WebRequest):
+    def post(self):
+        self.get_list("supplier")
