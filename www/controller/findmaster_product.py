@@ -73,20 +73,11 @@ class DelOrderAPIHandler(WebRequest):
             return
         else:
             self.finish({"info":"error","about":"order_id not in orders already"})
+
 class UpdateOrderAPIHandler(WebRequest):
     def post(self):
-        user_id = self.get_argument("user_id","")
-        order_id = self.get_argument("order_id","")
-        key = self.get_argument("key","")
-        value = self.get_argument("value","")
-        order = get_aim(order_id)
-        old_value = order.get(key,"")
-        if old_value == value:
-            self.finish({"info":"error","about":"same value"})
-            return
-        order[key]=value
-        update_aim(order_id,order)
-        self.finish({"info":"ok","about":"update key value success"})
+        super().del_obj("product")
+
 class CreateProductAPIHandler(WebRequest):
     def post(self):
         user_id = self.get_argument("user_id","")

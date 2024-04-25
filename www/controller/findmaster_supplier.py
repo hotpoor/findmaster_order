@@ -16,16 +16,26 @@ from nomagic.cache import get_user, get_users, update_user, get_doc, get_docs, u
 
 from .base import WebRequest
 from tornado.escape import json_encode, json_decode
+from .base_controller import BaseController
 
-class DelSupplierAPIHandler(WebRequest):
+class DelSupplierAPIHandler(BaseController):
     def post(self):
-        super().del_obj("supplier")
+        user = super().get_current_user_by_id()
+        if not user:
+            self.finish({"info": "error", "about": "User does not exist"})
+            return
 
-class UpdateSupplierAPIHandler(WebRequest):
+        obj_id = self.get_argument("supplier_id", "")
+        obj_item = super().get_item_by_id(obj_id)
+        if not obj_item:
+            self.finish({"info": "error", "about": "Supplier does not exist"})
+            return
+
+class UpdateSupplierAPIHandler(BaseController):
     def post(self):
         super().update_obj("supplier")
 
-class CreateSupplierAPIHandler(WebRequest):
+class CreateSupplierAPIHandler(BaseController):
     def post(self):
         user = super().get_current_user_by_id()
         if not user:
@@ -59,6 +69,6 @@ class CreateSupplierAPIHandler(WebRequest):
         update_aim(user_id,user)
         self.finish({"info":"ok","about":"create supplier success"})
 
-class ListSupplierAPIHandler(WebRequest):
+class ListSupplierAPIHandler(BaseController):
     def post(self):
         super().get_list("supplier")
