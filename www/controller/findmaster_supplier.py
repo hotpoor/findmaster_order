@@ -62,3 +62,6 @@ class CreateSupplierAPIHandler(WebRequest):
 class ListSupplierAPIHandler(WebRequest):
     def post(self):
         super().get_list("supplier")
+class ListTestSupplierAPIHandler(WebRequest):
+    def post(self):
+        self.get_list("supplier")

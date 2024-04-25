@@ -16,6 +16,9 @@ settings = {
     "cookie_domain": "",
     "debug": True,
     "wss_port":8100,
+    "search_type":["title","desc","tags","doms","product_title","product_desc","sequence"],
+    "search_no_str":" !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~！？｡＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘'‛“”„‟…‧﹏.",
+    "developers":[]
 }
 
 try:
