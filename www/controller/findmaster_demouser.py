@@ -46,13 +46,22 @@ from .data import DataWebSocket
 
 class CreateUserAPIHandler(WebRequest):
     def post(self):
+        time_now = time.time()
+        login = self.get_argument("login","%s"%time_now)
         name = self.get_argument("name","demo user")
         password = self.get_argument("password","123456")
+
+        result = conn.query("SELECT * FROM index_login WHERE login=%s",login)
+        if result:
+            self.finish({"info":"error","about":"login already in, change another one"})
+            return
+
         user = {
             "name":name,
             "password":password,
         }
         [user_id, user] = nomagic.auth.create_user(user)
+        conn.execute("INSERT INTO index_login (login, entity_id,app) VALUES(%s, %s, %s)", login, user_id,"demouser")
         self.finish({
             "info":"ok",
             "about":"success",
