@@ -20,20 +20,47 @@ from .base_controller import BaseController
 
 class DelSupplierAPIHandler(BaseController):
     def post(self):
-        user = super().get_current_user_by_id()
+        user = self.get_current_user_by_id()
         if not user:
             self.finish({"info": "error", "about": "User does not exist"})
             return
 
         obj_id = self.get_argument("supplier_id", "")
-        obj_item = super().get_item_by_id(obj_id)
+        obj_item = self.get_item_by_id("supplier_id")
         if not obj_item:
             self.finish({"info": "error", "about": "Supplier does not exist"})
             return
 
+        result= self.del_item_by_id(user, "suppliers", obj_id)
+        if result:
+            self.finish({"info": "ok", "about": "del supplier success"})
+        else :
+            self.finish({"info": "error", "about": "supplier_id not in suppliers already"})
+
 class UpdateSupplierAPIHandler(BaseController):
     def post(self):
-        super().update_obj("supplier")
+        user = self.get_current_user_by_id()
+        if not user:
+            self.finish({"info": "error", "about": "User does not exist"})
+            return
+
+        obj_id = self.get_argument("supplier_id", "")
+        obj_item = self.get_item_by_id("supplier_id")
+        if not obj_item:
+            self.finish({"info": "error", "about": "Supplier does not exist"})
+            return
+
+        base_data = self.get_argument("base_data", "")
+        if not base_data:
+            self.finish({"info": "error", "about": "base_data is empty"})
+            return
+
+        base_data_json = json_decode(base_data)
+        for k, v in base_data_json.items():
+            obj_item[k] = v
+
+        update_aim(obj_id, obj_item)
+        self.finish({"info": "ok", "about": "update supplier success"})
 
 class CreateSupplierAPIHandler(BaseController):
     def post(self):
@@ -71,7 +98,20 @@ class CreateSupplierAPIHandler(BaseController):
 
 class ListSupplierAPIHandler(BaseController):
     def post(self):
-        super().get_list("supplier")
+        user = self.get_current_user_by_id()
+        if not user:
+            self.finish({"info": "error", "about": "User does not exist"})
+            return
+
+        items, obj_items, obj_json= self.get_list(user, "suppliers")
+        self.finish({
+            "info": "ok",
+            "about": "list success",
+            "supplier_list": items,
+            "supplier_items": obj_items,
+            "supplier_json": obj_json,
+        })
+
 class ListTestSupplierAPIHandler(WebRequest):
     def post(self):
         self.get_list("supplier")
