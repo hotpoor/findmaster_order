@@ -68,3 +68,42 @@ class CreateUserAPIHandler(WebRequest):
             "user_id":user_id,
             "user":user
             })
+class LoginAPIHandler(WebRequest):
+    def post(self):
+        if self.current_user:
+            self.finish({"info":"error","about":"already login"})
+            return
+        login = self.get_argument("login","")
+        password = self.get_argument("password","")
+        result = conn.query("SELECT * FROM index_login WHERE login = %s ORDER BY id ASC", login)
+        if not result:
+            self.finish({"info":"error","about":"not registered"})
+            return
+        user_id = result[0].get("entity_id",None)
+        user = get_aim(user_id)
+        hash_pwd = hashlib.sha1((password + user["salt"]).encode("utf8")).hexdigest()
+        if user["password"] != hash_pwd:
+            self.finish({"info":"error","about":"Wrong password or login."})
+            return
+        self.set_secure_cookie("user", tornado.escape.json_encode({"id": user_id, "v":1}),expires=time.time()+63072000,domain=settings.get("cookie_domain"))
+        self.finish({"info":"ok","about":"login success"})
+class LogoutAPIHandler(WebRequest):
+    def post(self):
+        if not self.current_user:
+            self.finish({"info":"error","about":"already not login"})
+            return
+        self.clear_cookie("user")
+        self.finish({"info":"ok","about":"logout success"})
+class DataAPIHandler(WebRequest):
+    def post(self):
+        if not self.current_user:
+            self.finish({"info":"error","about":"already not login"})
+            return
+        user_id = self.current_user["id"]
+        user = get_aim(user_id)
+        self.finish({
+            "info":"ok",
+            "about":"success",
+            "user_id":user_id,
+            "user":user
+            })

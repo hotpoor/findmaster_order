@@ -9,7 +9,7 @@ from tornado.escape import json_encode, json_decode
 
 class BaseHandler(object):
     def get_current_user(self):
-        user_json = self.get_secure_cookie("user")
+        user_json = self.get_secure_cookie("user",max_age_days=730)
         if not user_json:
             return {}
         user_data = tornado.escape.json_decode(user_json)

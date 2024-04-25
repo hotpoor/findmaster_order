@@ -18,6 +18,9 @@ class MainHandler(tornado.web.RequestHandler):
 def make_app():
     return tornado.web.Application([
         (r"/api/demouser/create",findmaster_demouser.CreateUserAPIHandler),
+        (r"/api/demouser/login",findmaster_demouser.LoginAPIHandler),
+        (r"/api/demouser/logout",findmaster_demouser.LogoutAPIHandler),
+        (r"/api/demouser/data",findmaster_demouser.DataAPIHandler),
 
         (r"/api/search/add_free", findmaster_search.SearchAddFreeAPIHandler),
         (r"/api/search/add", findmaster_search.SearchAddAPIHandler),
@@ -27,8 +30,11 @@ def make_app():
 
         (r"/api/product/create", findmaster_product.CreateProductAPIHandler),
         (r"/api/supplier/create", findmaster_supplier.CreateSupplierAPIHandler),
+
+        (r"/api/supplier/list_test2", findmaster_supplier.ListTest2SupplierAPIHandler),
         (r"/api/supplier/list_test", findmaster_supplier.ListTestSupplierAPIHandler),
         (r"/api/supplier/list", findmaster_supplier.ListSupplierAPIHandler),
+
         (r"/api/supplier/update", findmaster_supplier.UpdateSupplierAPIHandler),
         (r"/api/supplier/del", findmaster_supplier.DelSupplierAPIHandler),
         (r"/api/order/del",findmaster_order.DelOrderAPIHandler),

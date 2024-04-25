@@ -17,6 +17,7 @@ from nomagic.cache import get_user, get_users, update_user, get_doc, get_docs, u
 from .base import WebRequest
 from tornado.escape import json_encode, json_decode
 from .base_controller import BaseController
+from .base_controller import BaseControllerV1
 
 class DelSupplierAPIHandler(BaseController):
     def post(self):
@@ -112,6 +113,40 @@ class ListSupplierAPIHandler(BaseController):
             "supplier_json": obj_json,
         })
 
-class ListTestSupplierAPIHandler(WebRequest):
+class ListTestSupplierAPIHandler(WebRequest,BaseControllerV1):
     def post(self):
-        self.get_list("supplier")
+        user = self.get_current_user_by_id()
+        if not user:
+            self.finish({"info": "error", "about": "User does not exist"})
+            return
+        items, obj_items, obj_json= self.get_list(user, "suppliers")
+        self.finish({
+            "info": "ok",
+            "about": "list success",
+            "supplier_list": items,
+            "supplier_items": obj_items,
+            "supplier_json": obj_json,
+        })
+class ListTest2SupplierAPIHandler(WebRequest):
+    def post(self):
+        user_id = self.get_argument("user_id")
+        user = get_aim(user_id)
+        if not user:
+            self.finish({"info": "error", "about": "User does not exist"})
+            return
+        suppliers = user.get("suppliers",[])
+        suppliers_items = get_aims(suppliers)
+        suppliers_json = {}
+        for suppliers_item in suppliers_items:
+            supplier_id = suppliers_item[0]
+            supplier_entity = suppliers_item[1]
+            suppliers_json[supplier_id]=supplier_entity
+        self.finish({
+            "info":"ok",
+            "about":"list success",
+            "supplier_list":suppliers,
+            "supplier_items":suppliers_items,
+            "supplier_json":suppliers_json
+            })
+
+
