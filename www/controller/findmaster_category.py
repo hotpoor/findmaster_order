@@ -11,43 +11,43 @@ import time
 import nomagic
 import nomagic.auth
 import nomagic.block
-import nomagic.supplier
+import nomagic.category
 from nomagic.cache import get_user, get_users, update_user, get_doc, get_docs, update_doc, get_aim, get_aims, update_aim, get_entity, get_entities, update_entity
 
 from .base import WebRequest
 from tornado.escape import json_encode, json_decode
 from .base_controller import BaseController
 
-class DelSupplierAPIHandler(WebRequest,BaseController):
+class DelCategoryAPIHandler(WebRequest,BaseController):
     def post(self):
         user = self.get_current_user_by_id()
         if not user:
             self.finish({"info": "error", "about": "User does not exist"})
             return
 
-        obj_id = self.get_argument("supplier_id", "")
-        obj_item = self.get_item_by_id("supplier_id")
+        obj_id = self.get_argument("category_id", "")
+        obj_item = self.get_item_by_id("category_id")
         if not obj_item:
-            self.finish({"info": "error", "about": "Supplier does not exist"})
+            self.finish({"info": "error", "about": "Category does not exist"})
             return
 
-        result= self.del_item_by_id(user, "suppliers", obj_id)
+        result= self.del_item_by_id(user, "categories", obj_id)
         if result:
-            self.finish({"info": "ok", "about": "del supplier success"})
+            self.finish({"info": "ok", "about": "del category success"})
         else :
-            self.finish({"info": "error", "about": "supplier_id not in suppliers already"})
+            self.finish({"info": "error", "about": "category_id not in categories already"})
 
-class UpdateSupplierAPIHandler(WebRequest,BaseController):
+class UpdateCategoryAPIHandler(WebRequest,BaseController):
     def post(self):
         user = self.get_current_user_by_id()
         if not user:
             self.finish({"info": "error", "about": "User does not exist"})
             return
 
-        obj_id = self.get_argument("supplier_id", "")
-        obj_item = self.get_item_by_id("supplier_id")
+        obj_id = self.get_argument("category_id", "")
+        obj_item = self.get_item_by_id("category_id")
         if not obj_item:
-            self.finish({"info": "error", "about": "Supplier does not exist"})
+            self.finish({"info": "error", "about": "Category does not exist"})
             return
 
         base_data = self.get_argument("base_data", "")
@@ -60,9 +60,9 @@ class UpdateSupplierAPIHandler(WebRequest,BaseController):
             obj_item[k] = v
 
         update_aim(obj_id, obj_item)
-        self.finish({"info": "ok", "about": "update supplier success"})
+        self.finish({"info": "ok", "about": "update category success"})
 
-class CreateSupplierAPIHandler(WebRequest,BaseController):
+class CreateCategoryAPIHandler(WebRequest,BaseController):
     def post(self):
         user = super().get_current_user_by_id()
         if not user:
@@ -71,44 +71,43 @@ class CreateSupplierAPIHandler(WebRequest,BaseController):
 
         user_id = self.get_argument("user_id", "")
 
-        suppliers = user.get("suppliers",[])
+        categories = user.get("categories",[])
 
-        country = self.get_argument("country", "")
-        region = self.get_argument("region", "")
-        subregion = self.get_argument("subregion", "")
-        region_grade = self.get_argument("region_grade", "")
+        name = self.get_argument("name", "")
+        sort = self.get_argument("sort", "")
 
-        if not (country and region and subregion and region_grade):
-            self.finish({"info":"error","about":"Country and region and subregion and region grade are required"})
+        if not name:
+            self.finish({"info":"error","about":"Name are required"})
             return
 
-        supplier = {
-            "owner":user_id,
-            "country":country,
-            "region":region,
-            "subregion":subregion,
-            "region_grade":region_grade
+        if not sort:
+            sort = 1
+
+        category = {
+            "owner": user_id,
+            "name": name,
+            "sort": sort,
         }
-        [supplier_id,supplier]=nomagic.supplier.create_supplier(supplier)
-        suppliers.insert(0,supplier_id)
-        user["suppliers"]=suppliers
+        [category_id,category]=nomagic.category.create_category(category)
+        categories.insert(0,category_id)
+        user["categories"]=categories
         user["updatetime"]=int(time.time())
         update_aim(user_id,user)
-        self.finish({"info":"ok","about":"create supplier success"})
+        self.finish({"info":"ok","about":"create category success"})
 
-class ListSupplierAPIHandler(WebRequest,BaseController):
+class ListCategoryAPIHandler(WebRequest,BaseController):
     def post(self):
         user = self.get_current_user_by_id()
         if not user:
             self.finish({"info": "error", "about": "User does not exist"})
             return
 
-        items, obj_items, obj_json= self.get_list(user, "suppliers")
+        items, obj_items, obj_json= self.get_list(user, "categories")
         self.finish({
             "info": "ok",
             "about": "list success",
-            "supplier_list": items,
-            "supplier_items": obj_items,
-            "supplier_json": obj_json,
+            "category_list": items,
+            "category_items": obj_items,
+            "category_json": obj_json,
         })
 

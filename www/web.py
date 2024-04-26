@@ -10,6 +10,11 @@ from controller import findmaster_demouser
 from controller import findmaster_product
 from controller import findmaster_supplier
 from controller import findmaster_search
+from controller import findmaster_category
+from controller import findmaster_specification
+from controller import findmaster_raw_materials
+from controller import findmaster_packing
+from controller import findmaster_tasting
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -28,15 +33,42 @@ def make_app():
         (r"/api/search/list_force", findmaster_search.SearchListForceAPIHandler),
         (r"/api/search/list", findmaster_search.SearchListAPIHandler),
 
+        # product
         (r"/api/product/create", findmaster_product.CreateProductAPIHandler),
+        (r"/api/product/list", findmaster_product.ListProductAPIHandler),
+        (r"/api/product/update", findmaster_product.UpdateProductAPIHandler),
+        (r"/api/product/del", findmaster_product.DelProductAPIHandler),
+        # supplier
         (r"/api/supplier/create", findmaster_supplier.CreateSupplierAPIHandler),
-
-        (r"/api/supplier/list_test2", findmaster_supplier.ListTest2SupplierAPIHandler),
-        (r"/api/supplier/list_test", findmaster_supplier.ListTestSupplierAPIHandler),
         (r"/api/supplier/list", findmaster_supplier.ListSupplierAPIHandler),
-
         (r"/api/supplier/update", findmaster_supplier.UpdateSupplierAPIHandler),
         (r"/api/supplier/del", findmaster_supplier.DelSupplierAPIHandler),
+        # category
+        (r"/api/category/create", findmaster_category.CreateCategoryAPIHandler),
+        (r"/api/category/list", findmaster_category.ListCategoryAPIHandler),
+        (r"/api/category/update", findmaster_category.UpdateCategoryAPIHandler),
+        (r"/api/category/del", findmaster_category.DelCategoryAPIHandler),
+        # specification
+        (r"/api/specification/create", findmaster_specification.CreateSpecificationAPIHandler),
+        (r"/api/specification/list", findmaster_specification.ListSpecificationAPIHandler),
+        (r"/api/specification/update", findmaster_specification.UpdateSpecificationAPIHandler),
+        (r"/api/specification/del", findmaster_specification.DelSpecificationAPIHandler),
+        # raw materials
+        (r"/api/raw_materials/create", findmaster_raw_materials.CreateRawMaterialsAPIHandler),
+        (r"/api/raw_materials/list", findmaster_raw_materials.ListRawMaterialsAPIHandler),
+        (r"/api/raw_materials/update", findmaster_raw_materials.UpdateRawMaterialsAPIHandler),
+        (r"/api/raw_materials/del", findmaster_raw_materials.DelRawMaterialsAPIHandler),
+        # packing
+        (r"/api/packing/create", findmaster_packing.CreatePackingAPIHandler),
+        (r"/api/packing/list", findmaster_packing.ListPackingAPIHandler),
+        (r"/api/packing/update", findmaster_packing.UpdatePackingAPIHandler),
+        (r"/api/packing/del", findmaster_packing.DelPackingAPIHandler),
+        # tasting
+        (r"/api/tasting/create", findmaster_tasting.CreateTastingAPIHandler),
+        (r"/api/tasting/list", findmaster_tasting.ListTastingAPIHandler),
+        (r"/api/tasting/update", findmaster_tasting.UpdateTastingAPIHandler),
+        (r"/api/tasting/del", findmaster_tasting.DelTastingAPIHandler),
+
         (r"/api/order/del",findmaster_order.DelOrderAPIHandler),
         (r"/api/order/update",findmaster_order.UpdateOrderAPIHandler),
         (r"/api/order/create",findmaster_order.CreateOrderAPIHandler),
