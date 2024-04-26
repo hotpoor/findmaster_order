@@ -14,6 +14,8 @@ settings = {
     "static_path": os.path.join(os.path.dirname(__file__),"static"),
     "cookie_secret": "hotpoorinchina",
     "cookie_domain": "",
+    "QiniuAccessKey": "JBtRerctNpqEK3FgeZcLhRorC-SXkJKbY_esB4Wx",
+    "QiniuSecretKey": "PAD3yzsVmqkQCqSV1YVvWM8lVZpJzvGedaOSWDcc",
     "debug": True,
     "wss_port":8100,
     "search_type":["title","desc","tags","doms","product_title","product_desc","sequence"],

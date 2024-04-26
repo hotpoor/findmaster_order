@@ -44,6 +44,16 @@ from .base import WebSocket
 
 from .data import DataWebSocket
 
+class OrdersHomeHandler(WebRequest):
+    def get(self):
+        if not self.current_user:
+            self.finish({"info":"error","about":"not login"})
+            return
+        user_id = self.current_user["id"]
+        self.user_id = user_id
+        self.timestamp = int(time.time())
+        self.render("../template/demouser_orders.html")
+
 class CreateUserAPIHandler(WebRequest):
     def post(self):
         time_now = time.time()
