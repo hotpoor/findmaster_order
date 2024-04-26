@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DEMOUSER Orders</title>
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/tools.js?v={{handler.timestamp}}"></script>
+    <style type="text/css">
+        .hide{
+            display: none;
+        }
+        .order_create_imgs_item_img{
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+        .order_create_imgs_loading{
+            width: 100%;
+            height: 5px;
+        }
+        .loading_flag{
+            height: 5px;
+            background-color: red;
+            border-radius: 2px;
+            width: 5%;
+        }
+    </style>
+</head>
+<body>
+    <div class="order_create_area">
+        <div class="order_create_line">
+            商品名称<input type="text" class="order_create_title">
+        </div>
+        <div class="order_create_line">
+            商品描述<input type="text" class="order_create_desc">
+        </div>
+        <div class="order_create_line">
+            备注图片<button class="order_create_imgs_add">添加图片</button>
+            <div class="order_create_imgs_loading"></div>
+            <div class="order_create_imgs_list"></div>
+        </div>
+        <div class="order_create_line">
+            <button class="order_create_btn">创建</button>
+        </div>
+    </div>
+    <div class="orders_list"></div>
+    <div class="hide">
+        <input id="demouser_file_add_upload" type="file" accept="*/*">
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var USER_ID = "{{ handler.user_id }}";
+    var BLOCK_ID = "{{ handler.user_id }}";
+</script>
+<script src="/static/js/demouser_orders.js?v={{handler.timestamp}}"></script>
+<script src="/static/js/demouser_edit_file.js?v={{handler.timestamp}}"></script>
